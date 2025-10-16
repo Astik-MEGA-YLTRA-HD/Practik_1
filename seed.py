@@ -2,9 +2,9 @@ from core import DataBase
 
 # создание таблиц в базе данных
 def create_db(db: DataBase):
-    sql = ["""
+    sql = """
     CREATE TABLE IF NOT EXISTS products(
-        id INTEGER PIYMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         count_m REAL,
         prise INTEGER,
@@ -14,17 +14,15 @@ def create_db(db: DataBase):
         density REAL,
         made_in TEXT
     );
-    """,
-    """
+
     CREATE TABLE IF NOT EXISTS discounts(
-        id INTEGER PIYMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         discount INTEGER
     );
-    """,
-    """
-    CREATE TABLE IF NOT EXISTS discounts(
-        id INTEGER PIYMARY KEY AUTOINCREMENT,
+
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         first_name TEXT,
         last_name TEXT,
         email TEXT,
@@ -33,4 +31,8 @@ def create_db(db: DataBase):
     );
     """
 
-    ]
+    db.exec_script(sql)
+
+if __name__ == "__main__":
+    db = DataBase()
+    create_db(db)

@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request
 import sqlite3
 from pathlib import Path
 
 # создание и подключение базы данных
 class DataBase:
     def __init__(self):
-        self.Path_db = Path("log.sqlite3")
+        self.Path_db = Path("DB.sqlite3")
         self.con = sqlite3.connect(str(self.Path_db))
 
     def __del__(self):
