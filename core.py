@@ -1,0 +1,42 @@
+from flask import Flask, render_template, request
+import sqlite3
+from pathlib import Path
+
+# создание и подключение базы данных
+class DataBase:
+    def __init__(self):
+        self.Path_db = Path("log.sqlite3")
+        self.con = sqlite3.connect(str(self.Path_db))
+
+    def __del__(self):
+        self.con.close()
+
+    # методы для отправки запросов
+    def exec_write(self, sql: str, parms: tuple | list[tuple] = None):
+        cur = self.con.cursor()
+
+        if sql == None:
+            cur.execute(sql)
+
+        elif isinstance(parms, list):
+            cur.executemany(sql, parms)
+
+        else:
+            cur.execute(sql, parms)
+        self.con.commit()
+
+    def exec_script(self, sql:str):
+        cur = self.con.cursor()
+        cur.executescript(sql)
+        self.con.commit()
+
+    # метод для чтения данных с БД
+    def exec_read(self, sql: str, parms: tuple | list[tuple]):
+        cur = self.con.cursor()
+
+        cur.execute(sql, parms = ())
+        return cur.fetchall()
+    
+# основные методы для работы и общения с сайтом 
+class SiteCon:
+    pass
