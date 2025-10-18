@@ -35,7 +35,3 @@ class DataBase:
 
         cur.execute(sql, parms = ())
         return cur.fetchall()
-    
-# основные методы для работы и общения с сайтом 
-class SiteCon:
-    pass
