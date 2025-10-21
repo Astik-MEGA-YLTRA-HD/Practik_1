@@ -22,6 +22,7 @@ def create_db(db: DataBase):
         structure TEXT,
         width REAL,
         density REAL,
+        date TEXT,
         made_in TEXT NOT NULL,
         discount_id INTEGER,
         image_id INTEGER,

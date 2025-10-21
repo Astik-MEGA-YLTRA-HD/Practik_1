@@ -1,0 +1,92 @@
+.wrapper {
+    width: 1400px;
+    margin: 0 auto;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10vw;
+}
+.logo_img {
+    width: 34px;
+}
+.logo_text {
+    width: 95px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 450px;
+    background: #fff;
+    padding: 30px;
+    color: #888;
+    border-radius: 10px;
+}
+.form h3 {
+    font-size: 38px;
+    color: #000;
+}
+.form_email {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form_input {
+    width: 400px;
+    border-radius: 10px;
+    height: 36px;
+    padding: 10px;
+    background: #f1f0ee;
+    border: none;
+    outline: none;
+}
+.form_input:hover {
+    background: #E4E2DF;
+}
+.form_password {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form_password_link {
+    display: flex;
+    justify-content: space-between; 
+}
+.form_link_forgot {
+    color: #888;
+}
+.form_link_forgot:hover {
+    color: #000;
+}
+.form_btn {
+    border-radius: 10px;
+    background: #9B1E1C;
+    padding: 10px 0;
+    color: #fff;
+    border: none;
+}
+.form_link {
+    display: flex;
+    justify-content: space-between;
+    color: #000;
+    text-align: center;
+    align-items: center;
+    border-top: 1px solid #88888848;
+    padding-top: 25px;
+    
+}
+.form_link_singUp {
+    text-decoration: none;
+    border: 1px solid #888;
+    border-radius: 10px;
+    padding: 11px 17px;
+    color: #000;
+}
