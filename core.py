@@ -6,7 +6,7 @@ class DataBase:
     def __init__(self):
         self.Path_db = Path("DB.sqlite3")
         self.con = sqlite3.connect(str(self.Path_db))
-        self.row_factory = sqlite3.Row
+        self.con.row_factory = sqlite3.Row
 
     def __del__(self):
         self.con.close()
@@ -33,6 +33,10 @@ class DataBase:
     # метод для чтения данных с БД
     def exec_read(self, sql: str, parms: tuple | list[tuple] = ()):
         cur = self.con.cursor()
-
-        cur.execute(sql, parms)
-        return cur.fetchall()
+        
+        row = cur.execute(sql, parms)
+        lst_dict = []
+        for val in row:
+            lst_dict.append(dict(val))
+        
+        return lst_dict

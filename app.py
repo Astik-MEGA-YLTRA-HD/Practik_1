@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 import repo
+from core import DataBase
 
 fl =  Flask(__name__)
 
@@ -33,7 +34,7 @@ def set_up():
 
 @fl.route("/", methods = ["POST","GET"])
 def data_all():
-    return jsonify(repo.prod_all(repo.DataBase()))
+    return jsonify(repo.prod_all(DataBase()))
 
 if __name__ == "__main__":
     fl.run(debug=True)
