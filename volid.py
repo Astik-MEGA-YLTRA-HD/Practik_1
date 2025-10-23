@@ -17,3 +17,31 @@ def volid_last_name(last_name):
     
     else:
         return None
+    
+def volid_email(email):
+    email = app.email
+
+    if type(email) == str and len(email) != 0:
+        return email
+    
+    else:
+        return None
+    
+def volid_phon(phon):
+    phon = app.phon
+
+    if type(phon) == str and len(phon) != 0:
+        return phon
+    
+    else:
+        return None
+    
+def volid_password(password):
+    password = app.password
+
+    if type(password) == str and len(password) != 0:
+        return password
+    
+    else:
+        return None
+    

@@ -1,5 +1,5 @@
 from core import DataBase
-from config import DATA_products, DATA_image_product, DATA_discounts, DATA_users, DATA_basket, DATA_job, DATA_image_job
+from config import DATA_products, DATA_discounts, DATA_users, DATA_basket, DATA_job
 
 # создание таблиц в базе данных
 def create_db(db: DataBase):
@@ -25,19 +25,12 @@ def create_db(db: DataBase):
         date TEXT,
         made_in TEXT NOT NULL,
         discount_id INTEGER,
-        image_id INTEGER,
         FOREIGN KEY (discount_id) REFERENCES discounts(id) ON DELETE RESTRICT
-        FOREIGN KEY (image_id) REFERENCES image_product(id) ON DELETE RESTRICT
-    );
-
-    CREATE TABLE image_product(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        image TEXT
     );
 
     CREATE TABLE discounts(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
+        title_discounts TEXT NOT NULL,
         discount INTEGER
     );
 
@@ -60,15 +53,8 @@ def create_db(db: DataBase):
 
     CREATE TABLE job(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        description TEXT,
-        image_id INTEGER,
-        FOREIGN KEY (image_id) REFERENCES image_job(id) ON DELETE RESTRICT
-    );
-
-    CREATE TABLE image_job(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        image TEXT
+        title_job TEXT,
+        description TEXT
     );
     """
 
@@ -76,15 +62,12 @@ def create_db(db: DataBase):
 
 def seed_db(db: DataBase):
     seed_product = """
-    INSERT INTO products(catalog, title, description, count_m, prise, structure, width, density, made_in, discount_id, image_id)
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    INSERT INTO products(catalog, title, description, count_m, prise, structure, width, density, made_in, discount_id)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     """
-    seed_image_product = """
-    INSERT INTO image_product(image)
-    VALUES(?);
-    """
+
     seed_discounts = """
-    INSERT INTO discounts(title, discount)
+    INSERT INTO discounts(title_discounts, discount)
     VALUES(?, ?);
     """
     seed_users = """
@@ -96,21 +79,15 @@ def seed_db(db: DataBase):
     VALUES(?, ?);
     """
     seed_job = """
-    INSERT INTO job(title, description, image_id)
-    VALUES(?, ?, ?);
-    """
-    seed_image_job = """
-    INSERT INTO image_job(image)
-    VALUES(?);
+    INSERT INTO job(title_job, description)
+    VALUES(?, ?);
     """
 
     db.exec_write(seed_product, DATA_products)
-    db.exec_write(seed_image_product, DATA_image_product)
     db.exec_write(seed_discounts, DATA_discounts)
     db.exec_write(seed_users, DATA_users)
     db.exec_write(seed_basket, DATA_basket)
     db.exec_write(seed_job, DATA_job)
-    db.exec_write(seed_image_job, DATA_image_job)
 
 if __name__ == "__main__":
     db = DataBase()

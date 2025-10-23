@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
+import repo
 
 fl =  Flask(__name__)
 
@@ -17,7 +18,7 @@ def log_in():
     phon = request.form.get("phon")
     password = request.form.get("password")
 
-    return render_template("Login.jsx")
+    return jsonify()
 
 
 @fl.route("/set_up", methods = ["POST","GET"])
@@ -29,6 +30,10 @@ def set_up():
     password = request.form.get("password")
 
     return render_template("index.html")
+
+@fl.route("/", methods = ["POST","GET"])
+def data_all():
+    return jsonify(repo.prod_all(repo.DataBase()))
 
 if __name__ == "__main__":
     fl.run(debug=True)
