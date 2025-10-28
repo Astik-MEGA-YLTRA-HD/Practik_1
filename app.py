@@ -7,6 +7,8 @@ fl =  Flask(__name__)
 @fl.route("/log_in", methods = ["POST","GET"])
 def log_in():
 
+    # ЕЩЕ НЕ ЗАКОНЧЕНО
+
     last_name = request.form.get("last_name")
     ferst_name = request.form.get("ferst_name")
     email = request.form.get("email")
