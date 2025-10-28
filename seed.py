@@ -40,7 +40,6 @@ def create_db(db: DataBase):
         last_name TEXT NOT NULL,
         email TEXT NOT NULL,
         phon TEXT,
-        hash TEXT,
         password TEXT NOT NULL
     );
 

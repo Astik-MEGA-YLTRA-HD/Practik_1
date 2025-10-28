@@ -23,7 +23,7 @@ def prod_id(db: DataBase, id):
 
 def users_all(db: DataBase):
     sql = """
-    SELECT first_name, last_name, email, phon, password
+    SELECT first_name, last_name, email, phon
     FROM users;
     """
 
@@ -33,7 +33,7 @@ def users_all(db: DataBase):
 
 def users_id(db: DataBase, id):
     sql = """
-    SELECT first_name, last_name, email, phon, password
+    SELECT first_name, last_name, email, phon
     FROM users
     WHERE id == ?;
     """
@@ -42,7 +42,7 @@ def users_id(db: DataBase, id):
 
 
 
-def basket(db: DataBase, hash):
+def basket(db: DataBase, id):
     sql = """
     SELECT products.catalog, products.title, products.description, products.count_m, products.prise, products.structure, products.width, products.density, products.date, products.made_in, discounts.title_discounts, discounts.discount
     FROM basket
@@ -52,7 +52,7 @@ def basket(db: DataBase, hash):
     WHERE users.id == ?;
     """
 
-    return db.exec_read(sql, (hash,))
+    return db.exec_read(sql, (id,))
 
 
 if __name__ == "__main__":

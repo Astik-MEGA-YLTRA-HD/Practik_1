@@ -15,7 +15,7 @@ class DataBase:
     def exec_write(self, sql: str, parms: tuple | list[tuple] = None):
         cur = self.con.cursor()
 
-        if sql == None:
+        if tuple == None:
             cur.execute(sql)
 
         elif isinstance(parms, list):

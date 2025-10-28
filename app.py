@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import repo
 from core import DataBase
 
@@ -6,11 +6,6 @@ fl =  Flask(__name__)
 
 @fl.route("/log_in", methods = ["POST","GET"])
 def log_in():
-    global last_name
-    global ferst_name
-    global email
-    global phon
-    global password
 
     last_name = request.form.get("last_name")
     ferst_name = request.form.get("ferst_name")
@@ -18,7 +13,7 @@ def log_in():
     phon = request.form.get("phon")
     password = request.form.get("password")
 
-    return jsonify(repo.users_all(DataBase()))
+    return render_template("index.py")
 
 
 
@@ -39,21 +34,21 @@ def profil(id):
     return jsonify(repo.users_id(DataBase(), id))
 
 
-@fl.route("/bascet/<int:hash>", methods = ["GET"])
-def bascet(hash):
-    return jsonify(repo.basket(DataBase(), hash))
+@fl.route("/basket/<int:user_id>", methods = ["GET"])
+def bascet(user_id):
+    return jsonify(repo.basket(DataBase(), user_id))
 
 
 
-@fl.route("/", methods = ["GET"])
+@fl.route("/products", methods = ["GET"])
 def prod_all():
     return jsonify(repo.prod_all(DataBase()))
 
 
 
-@fl.route("/prod/<int:id>", methods = ["GET"])
-def prod(id):
-    return jsonify(repo.prod_id(DataBase(), id))
+@fl.route("/prod/<int:products_id>", methods = ["GET"])
+def prod(products_id):
+    return jsonify(repo.prod_id(DataBase(), products_id))
 
 
 
