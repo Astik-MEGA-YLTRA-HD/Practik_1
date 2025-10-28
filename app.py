@@ -15,7 +15,7 @@ def log_in():
     phon = request.form.get("phon")
     password = request.form.get("password")
 
-    return render_template("index.py")
+    return render_template("index/html"), render_template("index.py")
 
 
 
