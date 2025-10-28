@@ -30,7 +30,7 @@ def volid_email(email):
 def volid_phon(phon):
     phon = app.phon
 
-    if type(phon) == str and len(phon) != 0:
+    if type(phon) == str and len(phon) != 0 and len(phon) <= 14:
         return phon
     
     else:

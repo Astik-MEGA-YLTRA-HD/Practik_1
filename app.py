@@ -1,9 +1,8 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, jsonify
 import repo
 from core import DataBase
 
 fl =  Flask(__name__)
-
 
 @fl.route("/log_in", methods = ["POST","GET"])
 def log_in():
@@ -19,7 +18,8 @@ def log_in():
     phon = request.form.get("phon")
     password = request.form.get("password")
 
-    return jsonify()
+    return jsonify(repo.users_all(DataBase()))
+
 
 
 @fl.route("/set_up", methods = ["POST","GET"])
@@ -30,11 +30,32 @@ def set_up():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    return render_template("index.html")
+    return jsonify(repo.users_all(DataBase()))
 
-@fl.route("/", methods = ["POST","GET"])
-def data_all():
+
+
+@fl.route("/profil/user/<int:id>", methods = ["GET"])
+def profil(id):
+    return jsonify(repo.users_id(DataBase(), id))
+
+
+@fl.route("/bascet/<int:hash>", methods = ["GET"])
+def bascet(hash):
+    return jsonify(repo.basket(DataBase(), hash))
+
+
+
+@fl.route("/", methods = ["GET"])
+def prod_all():
     return jsonify(repo.prod_all(DataBase()))
+
+
+
+@fl.route("/prod/<int:id>", methods = ["GET"])
+def prod(id):
+    return jsonify(repo.prod_id(DataBase(), id))
+
+
 
 if __name__ == "__main__":
     fl.run(debug=True)

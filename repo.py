@@ -8,11 +8,51 @@ def prod_all(db: DataBase):
 
     return db.exec_read(sql)
 
-def users_all():
-    pass
 
-def basket_all():
-    pass
+
+def prod_id(db: DataBase, id):
+    sql = """
+    SELECT catalog, title, description, count_m, prise, structure, width, density, date, made_in, discounts.title_discounts, discounts.discount FROM products
+    JOIN discounts ON discounts.id = discount_id
+    WHERE products.id == ?;
+    """
+
+    return db.exec_read(sql, (id,))
+
+
+
+def users_all(db: DataBase):
+    sql = """
+    SELECT first_name, last_name, email, phon, password
+    FROM users;
+    """
+
+    return db.exec_read(sql)
+
+
+
+def users_id(db: DataBase, id):
+    sql = """
+    SELECT first_name, last_name, email, phon, password
+    FROM users
+    WHERE id == ?;
+    """
+
+    return db.exec_read(sql, (id,))
+
+
+
+def basket(db: DataBase, hash):
+    sql = """
+    SELECT products.catalog, products.title, products.description, products.count_m, products.prise, products.structure, products.width, products.density, products.date, products.made_in, discounts.title_discounts, discounts.discount
+    FROM basket
+    JOIN products ON products.id = product_id
+    JOIN discounts ON discounts.id = products.discount_id
+    JOIN users ON users.id = user_id
+    WHERE users.id == ?;
+    """
+
+    return db.exec_read(sql, (hash,))
 
 
 if __name__ == "__main__":

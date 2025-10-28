@@ -21,7 +21,9 @@ DATA_users = [
 ]
 
 DATA_basket = [
-    (1, 2)
+    (2, 1),
+    (2, 2),
+    (3, 4)
 ]
 
 DATA_job = [

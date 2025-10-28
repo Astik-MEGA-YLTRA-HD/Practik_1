@@ -40,13 +40,14 @@ def create_db(db: DataBase):
         last_name TEXT NOT NULL,
         email TEXT NOT NULL,
         phon TEXT,
+        hash TEXT,
         password TEXT NOT NULL
     );
 
     CREATE TABLE basket(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        product_id INTEGER,
         user_id INTEGER,
+        product_id INTEGER,
         FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
     );
@@ -75,7 +76,7 @@ def seed_db(db: DataBase):
     VALUES(?, ?, ?, ?, ?);
     """
     seed_basket = """
-    INSERT INTO basket(product_id, user_id)
+    INSERT INTO basket(user_id, product_id)
     VALUES(?, ?);
     """
     seed_job = """
