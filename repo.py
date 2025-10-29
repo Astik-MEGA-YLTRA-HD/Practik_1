@@ -23,7 +23,7 @@ def prod_id(db: DataBase, id):
 
 def users_all(db: DataBase):
     sql = """
-    SELECT first_name, last_name, email, phon
+    SELECT id, first_name, last_name, email, phon, password
     FROM users;
     """
 

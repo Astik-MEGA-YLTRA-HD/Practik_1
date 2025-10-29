@@ -31,7 +31,7 @@ class DataBase:
         self.con.commit()
 
     # метод для чтения данных с БД
-    def exec_read(self, sql: str, parms: tuple | list[tuple] = ()):
+    def exec_read(self, sql: str, parms: tuple = ()):
         cur = self.con.cursor()
         
         row = cur.execute(sql, parms)
