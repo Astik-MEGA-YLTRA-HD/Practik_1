@@ -44,7 +44,7 @@ def users_id(db: DataBase, id):
 
 def basket(db: DataBase, id):
     sql = """
-    SELECT products.catalog, products.title, products.description, products.count_m, products.prise, products.structure, products.width, products.density, products.date, products.made_in, discounts.title_discounts, discounts.discount
+    SELECT products.catalog, products.title, products.description, products.count_m, products.prise, products.structure, products.width, products.density, products.date, products.made_in, discounts.title_discounts, discounts.discount, products.prise * count AS final_price
     FROM basket
     JOIN products ON products.id = product_id
     JOIN discounts ON discounts.id = products.discount_id

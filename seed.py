@@ -47,6 +47,7 @@ def create_db(db: DataBase):
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         product_id INTEGER,
+        count INTEGER,
         FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
     );
@@ -83,10 +84,10 @@ def seed_db(db: DataBase):
     VALUES(?, ?);
     """
 
-    db.exec_write(seed_product, DATA_products)
+    # db.exec_write(seed_product, DATA_products)
     db.exec_write(seed_discounts, DATA_discounts)
-    db.exec_write(seed_users, DATA_users)
-    db.exec_write(seed_basket, DATA_basket)
+    # db.exec_write(seed_users, DATA_users)
+    # db.exec_write(seed_basket, DATA_basket)
     db.exec_write(seed_job, DATA_job)
 
 if __name__ == "__main__":

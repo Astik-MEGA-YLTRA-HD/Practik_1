@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from core import DataBase
@@ -7,7 +7,7 @@ import repo
 
 fl =  Flask(__name__)
 CORS(fl)
-
+fl.secret_key = 'your-secret-key-here'
 
 @fl.route("/log_in", methods = ["POST","GET"])
 def log_in():
@@ -42,7 +42,7 @@ def log_in():
 
 
 @fl.route("/in", methods = ["POST","GET"])
-def set_up():
+def get_user():
     try:
         email = request.form.get("email")
         password = request.form.get("password")
@@ -50,7 +50,6 @@ def set_up():
         data_users = repo.users_all(DataBase())
 
         if email != None and password != None:
-            data_user_id = None
 
             for i in data_users:
                 if i['email'] == email and check_password_hash(i['password'], password):
@@ -60,7 +59,9 @@ def set_up():
                 return jsonify(('status', 404))
 
             else:
-                return jsonify(repo.users_id(DataBase(), data_user))
+                resp = make_response('добро пожаловать')
+                resp.set_cookie("user_id", value = f'{data_user}')
+                return resp
 
         return render_template("index2.html")
     
@@ -69,33 +70,66 @@ def set_up():
 
 
 
-@fl.route("/profil/user/<int:id>", methods = ["POST","GET"])
-def profil(id):
+@fl.route("/profil/user", methods = ["POST","GET"])
+def profil():
     try:
-        return jsonify(repo.users_id(DataBase(), id))
+        user_id = request.cookies.get("user_id")
+        return jsonify(repo.users_id(DataBase(), user_id))
     
     except:
         return jsonify(('status', 500))
 
 
 
-@fl.route("/basket/<int:user_id>", methods = ["POST","GET"])
-def bascet(user_id):
-    try:
-        return jsonify(repo.basket(DataBase(), user_id))
+@fl.route("/basket", methods = ["POST","GET"])
+def bascet():
+    # try:
+        product_id = request.form.get("product_id")
+
+        sql = """
+        DELETE FROM basket
+        WHERE product_id=? AND user_id=?;
+        """
+
+        if product_id != None:
+            user_id = request.cookies.get("user_id")
+
+            db = DataBase()
+            db.exec_write(sql, (product_id, user_id))
+
+            return jsonify(repo.basket(DataBase(), user_id))
+        
+        return render_template("index6.html")
     
-    except:
-        return jsonify(('status', 500))
+    # except:
+    #     return jsonify(('status', 500))
 
 
 
 @fl.route("/products", methods = ["POST","GET"])
 def prod_all():
-    try:
-        return jsonify(repo.prod_all(DataBase()))
-    
-    except:
-        return jsonify(('status', 500))
+    # try:
+        products_id = request.form.get("products_id")
+        count = request.form.get("count")
+
+        sql = """
+        INSERT INTO basket(user_id, product_id, count)
+        VALUES(?, ?, ?);
+        """
+
+        if products_id != None and count != None:
+            user_id = request.cookies.get("user_id")
+
+            data = (user_id, products_id, count)
+
+            db = DataBase()
+            db.exec_write(sql, data)
+
+            return jsonify(repo.prod_all(DataBase()))
+        
+        return render_template('index4.html')
+    # except:
+    #     return jsonify(('status', 500))
 
 
 
@@ -130,6 +164,25 @@ def prod_append():
 
 
 
+@fl.route("/product/catalog", methods = ["POST","GET"])
+def catalog():
+    catalog = request.form.get("catalog")
+
+    sql = """
+    SELECT catalog, title, description, count_m, prise, structure, width, density, date, made_in, discounts.title_discounts, discounts.discount FROM products
+    JOIN discounts ON discounts.id = discount_id
+    WHERE catalog == ?;
+    """
+    if catalog != None:
+        db = DataBase()
+        data = db.exec_read(sql, (catalog,))
+
+        return jsonify(data)
+    
+    return render_template("index5.html")
+
+
+
 @fl.route("/prod/<int:products_id>", methods = ["POST","GET"])
 def prod(products_id):
     try:
@@ -138,7 +191,5 @@ def prod(products_id):
     except:
         return jsonify(('status', 500))
 
-
-
 if __name__ == "__main__":
-    fl.run(debug=False)
+    fl.run(debug=True)
